@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fa.mapper.IndexSortMapper">
+    <resultMap id="OneSortMapper" type="com.fa.entity.OneSort">
+        <id property="oneSortId" column="one_sort_id"></id>
+        <result property="oneSortName" column="one_sort_name"></result>
+    </resultMap>
+    <resultMap id="TwoSortMapper" type="com.fa.entity.TwoSort">
+        <id property="twoSortId" column="two_sort_id"></id>
+        <result property="twoSortName" column="two_sort_name"></result>
+    </resultMap>
+    <resultMap id="ThreeSortMapper" type="com.fa.entity.ThreeSort">
+        <id property="threeSortId" column="three_sort_id"></id>
+        <result property="threeSortName" column="three_sort_name"></result>
+    </resultMap>
+    <!--单表查询，一级分类-->
+    <select id="selectOneSort" resultMap="OneSortMapper">
+        select one_sort_id,one_sort_name
+        from one_sort
+        where delete_status = 1;
+    </select>
+    <!--多表查询，二级分类-->
+    <select id="selectTwoSort" resultMap="TwoSortMapper">
+        select one.one_sort_id,one.one_sort_name,
+               two.two_sort_id,two.two_sort_name
+        from one_sort one
+        left join two_sort two
+        on one.one_sort_id = two.one_sort_id
+        where one.delete_status = two.delete_status = 1;
+    </select>
+    <!--多表查询，二级分类-->
+    <select id="selectThreeSort" resultMap="ThreeSortMapper">
+        select one.one_sort_id,one.one_sort_name,
+               two.two_sort_id,two.two_sort_name,
+               three.three_sort_id,three.three_sort_name
+        from one_sort one
+        left join two_sort two
+        on one.one_sort_id = two.one_sort_id
+        left join three_sort three
+        on two.two_sort_id = three.two_sort_id
+        where one.delete_status = two.delete_status = three.delete_status = 1;
+    </select>
+</mapper>

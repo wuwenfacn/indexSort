@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fa.mapper.UserMapper">
+    <resultMap id="UserMapper" type="com.fa.entity.User">
+        <id property="userId" column="user_id"></id>
+        <result property="userName" column="user_name"></result>
+        <result property="userPassword" column="user_password"></result>
+    </resultMap>
+
+    <select id="selectUserList" resultMap="UserMapper">
+        select user_id,user_name,user_password
+        from user
+        where delete_status = 1;
+    </select>
+</mapper>
